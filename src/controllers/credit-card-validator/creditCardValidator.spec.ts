@@ -64,4 +64,24 @@ describe('Given the creditCardValidator function', () => {
 			);
 		});
 	});
+
+	describe('When it receives a card number with less than 16 digits and is not valid according Luhn algorithm', () => {
+		test('Then it should return false and two error messages: "The card must have at least 16 digits" and "The card is not valid according to the Luhn algorithm"', () => {
+			const CreditCardInfo = {
+				creditCardNumber: '44448888',
+				expiryDate: '23/23',
+			};
+			const expectedCreaditCardValidationResult: CreaditCardValidationResult = {
+				isValid: false,
+				errorMessage: [
+					'The card must have at least 16 digits',
+					'The card is not valid according to the Luhn algorithm',
+				],
+			};
+
+			expect(creditCardValidator(CreditCardInfo)).toStrictEqual(
+				expectedCreaditCardValidationResult,
+			);
+		});
+	});
 });
