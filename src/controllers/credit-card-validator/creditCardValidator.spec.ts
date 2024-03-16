@@ -34,12 +34,29 @@ describe('Given the creditCardValidator function', () => {
 	describe('When it receives a card number that is not valid according to Luhn algorithm', () => {
 		test("Then it should return false and an error message: 'The card is not valid according to the Luhn algorithm'", () => {
 			const CreditCardInfo = {
-				creditCardNumber: '4583 3953 3254 1345',
+				creditCardNumber: '4583395332541345',
 				expiryDate: '23/23',
 			};
 			const expectedCreaditCardValidationResult: CreaditCardValidationResult = {
 				isValid: false,
 				errorMessage: 'The card is not valid according to the Luhn algorithm',
+			};
+
+			expect(creditCardValidator(CreditCardInfo)).toStrictEqual(
+				expectedCreaditCardValidationResult,
+			);
+		});
+	});
+
+	describe('When it receives a card number that is valid according to Luhn algorithm', () => {
+		test('Then it should return that is valid', () => {
+			const CreditCardInfo = {
+				creditCardNumber: '4111111111111111',
+				expiryDate: '23/23',
+			};
+			const expectedCreaditCardValidationResult: CreaditCardValidationResult = {
+				isValid: true,
+				errorMessage: '',
 			};
 
 			expect(creditCardValidator(CreditCardInfo)).toStrictEqual(

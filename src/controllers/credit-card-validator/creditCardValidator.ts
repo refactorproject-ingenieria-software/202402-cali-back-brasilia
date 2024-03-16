@@ -1,3 +1,4 @@
+import { card as luhn } from 'luhn-validation';
 type CreditCardInfo = {
 	creditCardNumber: string;
 	expiryDate: string;
@@ -13,7 +14,7 @@ export const creditCardValidator = ({
 	expiryDate,
 }: CreditCardInfo): CreaditCardValidationResult => {
 	const creaditCardValidationResult = {
-		isValid: null,
+		isValid: true,
 		errorMessage: '',
 	};
 	if (!expiryDate || !creditCardNumber) {
@@ -27,4 +28,11 @@ export const creditCardValidator = ({
 			'The card must have at least 16 digits';
 		return creaditCardValidationResult;
 	}
+	if (!luhn(creditCardNumber)) {
+		creaditCardValidationResult.isValid = false;
+		creaditCardValidationResult.errorMessage =
+			'The card is not valid according to the Luhn algorithm';
+		return creaditCardValidationResult;
+	}
+	return creaditCardValidationResult;
 };

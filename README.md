@@ -2,6 +2,9 @@
 
 Endpoint URL on render: [https://two02402-cali-back-brasilia.onrender.com/](https://two02402-cali-back-brasilia.onrender.com/)
 
+We use Luhn-validation to check is the credit card number is valid according to the Luhn algorithm:
+[https://www.npmjs.com/package/luhn-validation](https://www.npmjs.com/package/luhn-validation)
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>
