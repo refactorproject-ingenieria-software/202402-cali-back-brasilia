@@ -1,8 +1,4 @@
-const creditCardValidator = (a, b) => {
-	if (a && b) {
-		return true;
-	}
-};
+import { creditCardValidator } from './creditCardValidator';
 
 describe('Given the creditCardValidator function', () => {
 	describe('When it receives 2 strings as parameters', () => {
