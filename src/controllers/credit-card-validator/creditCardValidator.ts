@@ -3,12 +3,28 @@ type CreditCardInfo = {
 	expiryDate: string;
 };
 
+export type CreaditCardValidationResult = {
+	isValid: boolean;
+	errorMessage?: string;
+};
+
 export const creditCardValidator = ({
 	creditCardNumber,
 	expiryDate,
-}: CreditCardInfo): boolean => {
-	if (expiryDate && creditCardNumber) {
-		return true;
+}: CreditCardInfo): CreaditCardValidationResult => {
+	const creaditCardValidationResult = {
+		isValid: null,
+		errorMessage: '',
+	};
+	if (!expiryDate || !creditCardNumber) {
+		creaditCardValidationResult.isValid = false;
+		creaditCardValidationResult.errorMessage = 'Provide all info';
+		return creaditCardValidationResult;
 	}
-	return false;
+	if (creditCardNumber.length < 16) {
+		creaditCardValidationResult.isValid = false;
+		creaditCardValidationResult.errorMessage =
+			'The card must have at least 16 digits';
+		return creaditCardValidationResult;
+	}
 };
