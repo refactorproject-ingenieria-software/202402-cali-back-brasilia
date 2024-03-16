@@ -6,7 +6,7 @@ type CreditCardInfo = {
 
 export type CreaditCardValidationResult = {
 	isValid: boolean;
-	errorMessage?: string;
+	errorMessages?: string[];
 };
 
 export const creditCardValidator = ({
@@ -15,24 +15,23 @@ export const creditCardValidator = ({
 }: CreditCardInfo): CreaditCardValidationResult => {
 	const creaditCardValidationResult = {
 		isValid: true,
-		errorMessage: '',
+		errorMessages: [],
 	};
 	if (!expiryDate || !creditCardNumber) {
 		creaditCardValidationResult.isValid = false;
-		creaditCardValidationResult.errorMessage = 'Provide all info';
-		return creaditCardValidationResult;
+		creaditCardValidationResult.errorMessages.push('Provide all info');
 	}
 	if (creditCardNumber.length < 16) {
 		creaditCardValidationResult.isValid = false;
-		creaditCardValidationResult.errorMessage =
-			'The card must have at least 16 digits';
-		return creaditCardValidationResult;
+		creaditCardValidationResult.errorMessages.push(
+			'The card must have at least 16 digits',
+		);
 	}
 	if (!luhn(creditCardNumber)) {
 		creaditCardValidationResult.isValid = false;
-		creaditCardValidationResult.errorMessage =
-			'The card is not valid according to the Luhn algorithm';
-		return creaditCardValidationResult;
+		creaditCardValidationResult.errorMessages.push(
+			'The card is not valid according to the Luhn algorithm',
+		);
 	}
 	return creaditCardValidationResult;
 };

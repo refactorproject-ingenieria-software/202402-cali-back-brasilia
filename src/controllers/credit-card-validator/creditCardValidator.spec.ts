@@ -20,14 +20,13 @@ describe('Given the creditCardValidator function', () => {
 				creditCardNumber: '4583 3953',
 				expiryDate: '23/23',
 			};
-			const expectedCreaditCardValidationResult: CreaditCardValidationResult = {
-				isValid: false,
-				errorMessage: 'The card must have at least 16 digits',
-			};
+			const expectedErrorMessage = 'The card must have at least 16 digits';
 
-			expect(creditCardValidator(CreditCardInfo)).toStrictEqual(
-				expectedCreaditCardValidationResult,
-			);
+			expect(
+				creditCardValidator(CreditCardInfo).errorMessages.includes(
+					expectedErrorMessage,
+				),
+			).toBe(true);
 		});
 	});
 
@@ -39,7 +38,9 @@ describe('Given the creditCardValidator function', () => {
 			};
 			const expectedCreaditCardValidationResult: CreaditCardValidationResult = {
 				isValid: false,
-				errorMessage: 'The card is not valid according to the Luhn algorithm',
+				errorMessages: [
+					'The card is not valid according to the Luhn algorithm',
+				],
 			};
 
 			expect(creditCardValidator(CreditCardInfo)).toStrictEqual(
@@ -56,7 +57,7 @@ describe('Given the creditCardValidator function', () => {
 			};
 			const expectedCreaditCardValidationResult: CreaditCardValidationResult = {
 				isValid: true,
-				errorMessage: '',
+				errorMessages: [],
 			};
 
 			expect(creditCardValidator(CreditCardInfo)).toStrictEqual(
@@ -73,7 +74,7 @@ describe('Given the creditCardValidator function', () => {
 			};
 			const expectedCreaditCardValidationResult: CreaditCardValidationResult = {
 				isValid: false,
-				errorMessage: [
+				errorMessages: [
 					'The card must have at least 16 digits',
 					'The card is not valid according to the Luhn algorithm',
 				],
