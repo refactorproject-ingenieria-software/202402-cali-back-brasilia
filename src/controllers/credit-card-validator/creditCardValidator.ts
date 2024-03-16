@@ -1,4 +1,7 @@
 import { card as luhn } from 'luhn-validation';
+import valid from 'card-validator';
+import creditCardType, { types as CardType } from 'credit-card-type';
+
 type CreditCardInfo = {
 	creditCardNumber: string;
 	expiryDate: string;
@@ -31,6 +34,22 @@ export const creditCardValidator = ({
 		creaditCardValidationResult.isValid = false;
 		creaditCardValidationResult.errorMessages.push(
 			'The card is not valid according to the Luhn algorithm',
+		);
+	}
+	//Visa, Mastercard, American Express o Diners Club
+	console.log('>>>>>>>>>>>', valid.number(creditCardNumber).card.type);
+	if (
+		creditCardType(creditCardNumber).filter(
+			(cardType) =>
+				cardType.type === CardType.VISA ||
+				cardType.type === CardType.MASTERCARD ||
+				cardType.type === CardType.AMERICAN_EXPRESS ||
+				cardType.type === CardType.DINERS_CLUB,
+		).length === 0
+	) {
+		creaditCardValidationResult.isValid = false;
+		creaditCardValidationResult.errorMessages.push(
+			'The card must be from one of the following networks: Visa, Mastercard, American Express or Diners Club',
 		);
 	}
 	return creaditCardValidationResult;
