@@ -53,8 +53,8 @@ describe('Given a Password-Validator service', () => {
 			expect(validResponse.isValid).toBe(true);
 		});
 
-		test('Then it should validate that the password contains at least one special character', () => {
-			const response = passwordValidatorService.validatePassword('password');
+		test('Then it should validate that the password contains at least 1 special character', () => {
+			const response = passwordValidatorService.validatePassword('Password12');
 			expect(response.isValid).toBe(false);
 			expect(response.errors).toContain(
 				'Password must contain at least 1 special character',

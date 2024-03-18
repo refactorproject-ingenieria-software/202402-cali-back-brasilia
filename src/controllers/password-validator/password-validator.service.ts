@@ -5,9 +5,11 @@ import { PasswordValidatorResponse } from './password-validator.types';
 export class PasswordValidatorService {
 	validatePassword(password: string): PasswordValidatorResponse {
 		const errors: string[] = [];
-		const isValidLength = password.length >= 8;
-		const containsTwoNumbers = password.match(/[0-9]/g).length >= 2;
-		const containsCapitalLetter = /[A-Z]/.test(password);
+		const isValidLength: boolean = password.length >= 8;
+		const containsTwoNumbers: boolean = password.match(/[0-9]/g)?.length >= 2;
+		const containsCapitalLetter: boolean = /[A-Z]/.test(password);
+		// This regular expression matches any character that is not a word character (equivalent to [^a-zA-Z0-9_]) or an underscore.
+		const containsSpecialChars: boolean = /[\W_]/.test(password);
 
 		if (!isValidLength) errors.push('Password must be at least 8 characters');
 
@@ -17,8 +19,15 @@ export class PasswordValidatorService {
 		if (!containsCapitalLetter)
 			errors.push('Password must contain at least 1 capital letter');
 
+		if (!containsSpecialChars)
+			errors.push('Password must contain at least 1 special character');
+
 		return {
-			isValid: isValidLength && containsTwoNumbers && containsCapitalLetter,
+			isValid:
+				isValidLength &&
+				containsTwoNumbers &&
+				containsCapitalLetter &&
+				containsSpecialChars,
 			errors: errors,
 		};
 	}
