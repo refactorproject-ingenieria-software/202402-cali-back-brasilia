@@ -2,6 +2,7 @@ import { PasswordValidatorService } from './password-validator.service';
 
 describe('Given a Password-Validator service', () => {
 	let passwordValidatorService: PasswordValidatorService;
+	const validPassword = 'Password123!';
 	beforeEach(() => {
 		passwordValidatorService = new PasswordValidatorService();
 	});
@@ -11,8 +12,7 @@ describe('Given a Password-Validator service', () => {
 		});
 
 		test('Then it should return a response of type "PasswordValidatorResponse"', () => {
-			const response =
-				passwordValidatorService.validatePassword('Password123!');
+			const response = passwordValidatorService.validatePassword(validPassword);
 			expect(response.isValid).toBeDefined();
 			expect(response.errors).toBeDefined();
 		});
@@ -24,9 +24,9 @@ describe('Given a Password-Validator service', () => {
 				'Password must be at least 8 characters',
 			);
 
-			const response2 =
-				passwordValidatorService.validatePassword('Password123!');
-			expect(response2.isValid).toBe(true);
+			const validResponse =
+				passwordValidatorService.validatePassword(validPassword);
+			expect(validResponse.isValid).toBe(true);
 		});
 
 		test('Then it should validate that the password contains at least 2 numbers', () => {
@@ -36,9 +36,21 @@ describe('Given a Password-Validator service', () => {
 				'Password must contain at least 2 numbers',
 			);
 
-			const response2 =
-				passwordValidatorService.validatePassword('Password123!');
-			expect(response2.isValid).toBe(true);
+			const validResponse =
+				passwordValidatorService.validatePassword(validPassword);
+			expect(validResponse.isValid).toBe(true);
+		});
+
+		test('Then it should validate that the password must contain at least one capital letter', () => {
+			const response = passwordValidatorService.validatePassword('password123');
+			expect(response.isValid).toBe(false);
+			expect(response.errors).toContain(
+				'Password must contain at least one capital letter',
+			);
+
+			const validResponse =
+				passwordValidatorService.validatePassword(validPassword);
+			expect(validResponse.isValid).toBe(true);
 		});
 	});
 });
