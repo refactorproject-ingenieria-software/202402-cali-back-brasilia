@@ -1,6 +1,4 @@
 import { card as luhn } from 'luhn-validation';
-import valid from 'card-validator';
-import creditCardType, { types as CardType } from 'credit-card-type';
 
 type CreditCardInfo = {
 	creditCardNumber: string;
@@ -10,6 +8,19 @@ type CreditCardInfo = {
 export type CreaditCardValidationResult = {
 	isValid: boolean;
 	errorMessages?: string[];
+};
+// Following Networks: VISA-4 , MC-51-55, AE-37, 34, 35, DC-300, 305, 36, 38
+const validStartCombinations = [
+	4, 51, 52, 53, 54, 55, 37, 34, 35, 300, 305, 36, 38,
+];
+
+const checkCardType = (
+	creditCardNumber: string,
+	validStartCombinations: number[],
+): boolean => {
+	return validStartCombinations.some((validStart) =>
+		creditCardNumber.startsWith(String(validStart)),
+	);
 };
 
 export const creditCardValidator = ({
@@ -36,17 +47,8 @@ export const creditCardValidator = ({
 			'The card is not valid according to the Luhn algorithm',
 		);
 	}
-	//Visa, Mastercard, American Express o Diners Club
-	console.log('>>>>>>>>>>>', valid.number(creditCardNumber).card.type);
-	if (
-		creditCardType(creditCardNumber).filter(
-			(cardType) =>
-				cardType.type === CardType.VISA ||
-				cardType.type === CardType.MASTERCARD ||
-				cardType.type === CardType.AMERICAN_EXPRESS ||
-				cardType.type === CardType.DINERS_CLUB,
-		).length === 0
-	) {
+
+	if (!checkCardType(creditCardNumber[0], validStartCombinations)) {
 		creaditCardValidationResult.isValid = false;
 		creaditCardValidationResult.errorMessages.push(
 			'The card must be from one of the following networks: Visa, Mastercard, American Express or Diners Club',

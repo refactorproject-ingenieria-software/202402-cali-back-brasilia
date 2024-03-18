@@ -89,7 +89,7 @@ describe('Given the creditCardValidator function', () => {
 	describe('When it receives a valid card number which is not of type Visa, Mastercard, American Express or Diners Club ', () => {
 		test('Then it should return false with an error message "The card must be from one of the following networks: Visa, Mastercard, American Express or Diners Club"', () => {
 			const CreditCardInfo = {
-				creditCardNumber: '6011000990139424', //Discover
+				creditCardNumber: '3911000990139424', //Discover
 				expiryDate: '23/23',
 			};
 			const expectedErrorMessage =
