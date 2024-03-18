@@ -41,11 +41,11 @@ describe('Given a Password-Validator service', () => {
 			expect(validResponse.isValid).toBe(true);
 		});
 
-		test('Then it should validate that the password must contain at least one capital letter', () => {
+		test('Then it should validate that the password must contain at least 1 capital letter', () => {
 			const response = passwordValidatorService.validatePassword('password123');
 			expect(response.isValid).toBe(false);
 			expect(response.errors).toContain(
-				'Password must contain at least one capital letter',
+				'Password must contain at least 1 capital letter',
 			);
 
 			const validResponse =
