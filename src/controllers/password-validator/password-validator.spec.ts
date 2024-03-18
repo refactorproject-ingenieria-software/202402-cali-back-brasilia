@@ -60,5 +60,21 @@ describe('Given a Password-Validator service', () => {
 				'Password must contain at least 1 special character',
 			);
 		});
+
+		test('And the password has no matches, then the response should contain all error messages', () => {
+			const response = passwordValidatorService.validatePassword('asd');
+			expect(response.errors).toContain(
+				'Password must be at least 8 characters',
+			);
+			expect(response.errors).toContain(
+				'Password must contain at least 2 numbers',
+			);
+			expect(response.errors).toContain(
+				'Password must contain at least 1 capital letter',
+			);
+			expect(response.errors).toContain(
+				'Password must contain at least 1 special character',
+			);
+		});
 	});
 });
