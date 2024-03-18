@@ -16,8 +16,15 @@ describe('Given a Password-Validator service', () => {
 			expect(response.errors).toBeDefined();
 		});
 
-		// test('Then it should validate the password length', () => {
-		// 	const response = passwordValidatorService.validatePassword('1234567');
-		// });
+		test('Then it should validate the password length', () => {
+			const response = passwordValidatorService.validatePassword('1234567');
+			expect(response.isValid).toBe(false);
+			expect(response.errors).toContain(
+				'Password must be at least 8 characters',
+			);
+
+			const response2 = passwordValidatorService.validatePassword('12345678');
+			expect(response2.isValid).toBe(true);
+		});
 	});
 });
