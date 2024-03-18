@@ -6,12 +6,13 @@ describe('Given a Password-Validator service', () => {
 		passwordValidatorService = new PasswordValidatorService();
 	});
 	describe('When a request is made', () => {
-		test('Then it should be defined', () => {
+		test('Then the service should be defined', () => {
 			expect(passwordValidatorService).toBeDefined();
 		});
 
 		test('Then it should return a response of type "PasswordValidatorResponse"', () => {
-			const response = passwordValidatorService.validatePassword('password');
+			const response =
+				passwordValidatorService.validatePassword('Password123!');
 			expect(response.isValid).toBeDefined();
 			expect(response.errors).toBeDefined();
 		});
@@ -23,7 +24,20 @@ describe('Given a Password-Validator service', () => {
 				'Password must be at least 8 characters',
 			);
 
-			const response2 = passwordValidatorService.validatePassword('12345678');
+			const response2 =
+				passwordValidatorService.validatePassword('Password123!');
+			expect(response2.isValid).toBe(true);
+		});
+
+		test('Then it should validate that the password contains at least 2 numbers', () => {
+			const response = passwordValidatorService.validatePassword('password1');
+			expect(response.isValid).toBe(false);
+			expect(response.errors).toContain(
+				'Password must contain at least 2 numbers',
+			);
+
+			const response2 =
+				passwordValidatorService.validatePassword('Password123!');
 			expect(response2.isValid).toBe(true);
 		});
 	});
