@@ -23,6 +23,15 @@ const checkCardType = (
 	);
 };
 
+const checkExpiryDate = (expiryDate: CreditCardInfo['expiryDate']) => {
+	const today = new Date();
+	const formatExpiryMonth = Number(expiryDate.split('/')[0]) - 1;
+	const formatExpiryYear = Number(expiryDate.split('/')[1]) + 2000;
+	const dateExpiryDate = new Date(formatExpiryYear, formatExpiryMonth);
+
+	return today < dateExpiryDate;
+};
+
 export const creditCardValidator = ({
 	creditCardNumber,
 	expiryDate,
@@ -52,6 +61,13 @@ export const creditCardValidator = ({
 		creaditCardValidationResult.isValid = false;
 		creaditCardValidationResult.errorMessages.push(
 			'The card must be from one of the following networks: Visa, Mastercard, American Express or Diners Club',
+		);
+	}
+
+	if (!checkExpiryDate(expiryDate)) {
+		creaditCardValidationResult.isValid = false;
+		creaditCardValidationResult.errorMessages.push(
+			'The card must have a valid expiration date',
 		);
 	}
 	return creaditCardValidationResult;

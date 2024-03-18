@@ -34,7 +34,7 @@ describe('Given the creditCardValidator function', () => {
 		test("Then it should return false and an error message: 'The card is not valid according to the Luhn algorithm'", () => {
 			const CreditCardInfo = {
 				creditCardNumber: '4583395332541345',
-				expiryDate: '23/23',
+				expiryDate: '01/28',
 			};
 			const expectedCreaditCardValidationResult: CreaditCardValidationResult = {
 				isValid: false,
@@ -53,7 +53,7 @@ describe('Given the creditCardValidator function', () => {
 		test('Then it should return that is valid', () => {
 			const CreditCardInfo = {
 				creditCardNumber: '4111111111111111',
-				expiryDate: '23/23',
+				expiryDate: '01/28',
 			};
 			const expectedCreaditCardValidationResult: CreaditCardValidationResult = {
 				isValid: true,
@@ -70,7 +70,7 @@ describe('Given the creditCardValidator function', () => {
 		test('Then it should return false and two error messages: "The card must have at least 16 digits" and "The card is not valid according to the Luhn algorithm"', () => {
 			const CreditCardInfo = {
 				creditCardNumber: '44448888',
-				expiryDate: '23/23',
+				expiryDate: '01/28',
 			};
 			const expectedCreaditCardValidationResult: CreaditCardValidationResult = {
 				isValid: false,
@@ -89,7 +89,7 @@ describe('Given the creditCardValidator function', () => {
 	describe('When it receives a valid card number which is not of type Visa, Mastercard, American Express or Diners Club ', () => {
 		test('Then it should return false with an error message "The card must be from one of the following networks: Visa, Mastercard, American Express or Diners Club"', () => {
 			const CreditCardInfo = {
-				creditCardNumber: '3911000990139424', //Discover
+				creditCardNumber: '3911000990139424',
 				expiryDate: '23/23',
 			};
 			const expectedErrorMessage =
@@ -101,22 +101,21 @@ describe('Given the creditCardValidator function', () => {
 				),
 			).toBe(true);
 		});
+	});
 
-		describe('When it receives a credit card number and an unvalid expiration date', () => {
-			test("Then it should return false with an error message: 'The card must have a valid expiration date'", () => {
-				const CreditCardInfo = {
-					creditCardNumber: '3711000990139424', //Discover
-					expiryDate: '01/23',
-				};
-				const expectedErrorMessage =
-					'The card must have a valid expiration date';
+	describe('When it receives a credit card number and an unvalid expiration date', () => {
+		test("Then it should return false with an error message: 'The card must have a valid expiration date'", () => {
+			const CreditCardInfo = {
+				creditCardNumber: '3711000990139424',
+				expiryDate: '01/22',
+			};
+			const expectedErrorMessage = 'The card must have a valid expiration date';
 
-				expect(
-					creditCardValidator(CreditCardInfo).errorMessages.includes(
-						expectedErrorMessage,
-					),
-				).toBe(true);
-			});
+			expect(
+				creditCardValidator(CreditCardInfo).errorMessages.includes(
+					expectedErrorMessage,
+				),
+			).toBe(true);
 		});
 	});
 });
