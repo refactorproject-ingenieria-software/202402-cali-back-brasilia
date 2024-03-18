@@ -101,5 +101,22 @@ describe('Given the creditCardValidator function', () => {
 				),
 			).toBe(true);
 		});
+
+		describe('When it receives a credit card number and an unvalid expiration date', () => {
+			test("Then it should return false with an error message: 'The card must have a valid expiration date'", () => {
+				const CreditCardInfo = {
+					creditCardNumber: '3711000990139424', //Discover
+					expiryDate: '01/23',
+				};
+				const expectedErrorMessage =
+					'The card must have a valid expiration date';
+
+				expect(
+					creditCardValidator(CreditCardInfo).errorMessages.includes(
+						expectedErrorMessage,
+					),
+				).toBe(true);
+			});
+		});
 	});
 });
