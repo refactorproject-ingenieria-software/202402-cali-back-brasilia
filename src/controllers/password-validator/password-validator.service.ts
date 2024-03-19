@@ -4,31 +4,55 @@ import { PasswordValidatorResponse } from './password-validator.types';
 @Injectable()
 export class PasswordValidatorService {
 	validatePassword(password: string): PasswordValidatorResponse {
-		const errors: string[] = [];
-		const isValidLength: boolean = password.length >= 8;
-		const containsTwoNumbers: boolean = password.match(/[0-9]/g)?.length >= 2;
-		const containsCapitalLetter: boolean = /[A-Z]/.test(password);
-		// This regular expression matches any character that is not a word character (equivalent to [^a-zA-Z0-9_]) or an underscore.
-		const containsSpecialChars: boolean = /[\W_]/.test(password);
-
-		if (!isValidLength) errors.push('Password must be at least 8 characters');
-
-		if (!containsTwoNumbers)
-			errors.push('Password must contain at least 2 numbers');
-
-		if (!containsCapitalLetter)
-			errors.push('Password must contain at least 1 capital letter');
-
-		if (!containsSpecialChars)
-			errors.push('Password must contain at least 1 special character');
+		const validator = new PasswordValidator();
+		const isValid = validator.validate(password);
+		const errors = validator.getErrors();
 
 		return {
-			isValid:
-				isValidLength &&
-				containsTwoNumbers &&
-				containsCapitalLetter &&
-				containsSpecialChars,
-			errors: errors,
+			isValid,
+			errors,
 		};
+	}
+}
+
+class PasswordValidator {
+	private errors: string[] = [];
+
+	validate(password: string): boolean {
+		this.errors = [];
+
+		if (!this.isValidLength(password))
+			this.errors.push('Password must be at least 8 characters');
+
+		if (!this.containsTwoNumbers(password))
+			this.errors.push('Password must contain at least 2 numbers');
+
+		if (!this.containsCapitalLetter(password))
+			this.errors.push('Password must contain at least 1 capital letter');
+
+		if (!this.containsSpecialChars(password))
+			this.errors.push('Password must contain at least 1 special character');
+
+		return this.errors.length === 0;
+	}
+
+	getErrors(): string[] {
+		return [...this.errors];
+	}
+
+	private isValidLength(password: string): boolean {
+		return password.length >= 8;
+	}
+
+	private containsTwoNumbers(password: string): boolean {
+		return (password.match(/[0-9]/g) || []).length >= 2;
+	}
+
+	private containsCapitalLetter(password: string): boolean {
+		return /[A-Z]/.test(password);
+	}
+
+	private containsSpecialChars(password: string): boolean {
+		return /[^a-zA-Z0-9]/.test(password);
 	}
 }
