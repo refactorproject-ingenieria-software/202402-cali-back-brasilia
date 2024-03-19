@@ -40,6 +40,9 @@ export const creditCardValidator = ({
 		isValid: true,
 		errorMessages: [],
 	};
+	if (typeof expiryDate !== 'string' || typeof creditCardNumber !== 'string') {
+		throw 'You must provide creditCardNumber and expiry date as strings';
+	}
 	if (!expiryDate || !creditCardNumber) {
 		creaditCardValidationResult.isValid = false;
 		creaditCardValidationResult.errorMessages.push('Provide all info');
